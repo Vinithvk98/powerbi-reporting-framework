@@ -11,7 +11,7 @@ model wiring Power BI needs for time-intelligence, and runs a **nightly
 validation** job that writes exceptions to a table the dashboard charts
 alongside the numbers they affect.
 
-[![CI](https://github.com/OWNER/powerbi-reporting-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/powerbi-reporting-framework/actions/workflows/ci.yml)
+[![CI](https://github.com/Vinithvk98/powerbi-reporting-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/Vinithvk98/powerbi-reporting-framework/actions/workflows/ci.yml)
 
 ## Architecture
 
