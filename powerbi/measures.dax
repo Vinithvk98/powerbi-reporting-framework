@@ -1,0 +1,38 @@
+// DAX measures for the reporting model.
+// Grouped into a single "Measures" table in Power BI. Time-intelligence
+// relies on dim_date being marked as the model's date table.
+
+// ---- Core aggregates -------------------------------------------------------
+Total Transactions = COUNTROWS ( fact_transaction )
+
+Net Revenue = SUM ( fact_transaction[signed_amount] )
+
+Gross Amount = SUM ( fact_transaction[amount] )
+
+Average Ticket = DIVIDE ( [Gross Amount], [Total Transactions] )
+
+Refund Count =
+CALCULATE ( [Total Transactions], fact_transaction[is_refund] = TRUE () )
+
+Refund Rate = DIVIDE ( [Refund Count], [Total Transactions] )
+
+// ---- Time intelligence -----------------------------------------------------
+Net Revenue YTD =
+TOTALYTD ( [Net Revenue], dim_date[date] )
+
+Net Revenue LY =
+CALCULATE ( [Net Revenue], SAMEPERIODLASTYEAR ( dim_date[date] ) )
+
+Net Revenue MoM % =
+VAR Prev =
+    CALCULATE ( [Net Revenue], DATEADD ( dim_date[date], -1, MONTH ) )
+RETURN
+    DIVIDE ( [Net Revenue] - Prev, Prev )
+
+// ---- Data quality ----------------------------------------------------------
+Exception Count = COUNTROWS ( dq_exceptions )
+
+Exception Rate =
+DIVIDE ( [Exception Count], [Total Transactions] )
+
+Data Quality Score = 1 - [Exception Rate]
